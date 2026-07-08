@@ -1,4 +1,4 @@
-# Invoice Parser Agent
+### Invoice Parser Agent
 
 AI-assisted invoice parser for utility and telecom invoices. The project combines local OCR, deterministic field extraction, provider-specific RAG memory, a Gemini PDF second pass, and a local dashboard for human review.
 

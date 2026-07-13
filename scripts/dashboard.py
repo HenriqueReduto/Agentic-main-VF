@@ -1124,7 +1124,7 @@ def render_import(query: dict[str, list[str]]) -> str:
     )
     return "".join(body)
 
-python3 -c "from scripts.dashboard import DashboardConfig; config = DashboardConfig(); print(f'CSV path: {config.csv_path}'); print(f'CSV exists: {config.csv_path.exists()}')"
+
 def invoice_selector(rows: list[dict[str, str]], selected_index: int, view: str) -> str:
     options = []
     for index, row in enumerate(rows):
@@ -2232,3 +2232,6 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+#Teste

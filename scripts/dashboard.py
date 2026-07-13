@@ -1120,20 +1120,11 @@ def render_import(query: dict[str, list[str]]) -> str:
     <p class="muted">The key is used only for this import request and is not saved.</p>
     <div class="actions"><button>Import invoices</button></div>
   </form>
-  <section class="panel">
-    <h3>What happens next</h3>
-    <ul class="summary-list">
-      <li>Files are added to the system.</li>
-      <li>OCR and field extraction run automatically.</li>
-      <li>Imported invoices appear in Overview and Manual Review.</li>
-      <li>Unsupported invoice types are imported but shown as red warnings.</li>
-    </ul>
-  </section>
 </div>"""
     )
     return "".join(body)
 
-
+python3 -c "from scripts.dashboard import DashboardConfig; config = DashboardConfig(); print(f'CSV path: {config.csv_path}'); print(f'CSV exists: {config.csv_path.exists()}')"
 def invoice_selector(rows: list[dict[str, str]], selected_index: int, view: str) -> str:
     options = []
     for index, row in enumerate(rows):

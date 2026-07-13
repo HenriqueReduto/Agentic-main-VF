@@ -1,0 +1,10 @@
+services:
+  iseg-agent:
+    image: agentic_ai_iseg.main:app
+    container_name: iseg-agent
+    env_file: .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./index:/app/index
+    restart: unless-stopped

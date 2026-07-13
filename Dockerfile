@@ -1,30 +1,21 @@
-FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim AS builder
-
-ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
-ENV UV_PYTHON_DOWNLOADS=0
-
-WORKDIR /app
-RUN --mount=type=cache,target=/root/.cache/uv \
-    --mount=type=bind,source=uv.lock,target=uv.lock \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --frozen --no-install-project --no-dev
-
-COPY ./llm ./llm
-COPY pyproject.toml ./pyproject.toml
-COPY uv.lock ./uv.lock
-
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev
-
-
 FROM python:3.13-slim-bookworm
 
-# Copy the application from the builder
-COPY --from=builder --chown=app:app /app /app
-
-# Place executables in the environment at the front of the path
-ENV PATH="/app/.venv/bin:$PATH"
 WORKDIR /app
 
+# Copy application code
+COPY ./llm ./llm
+COPY ./invoice_parser ./invoice_parser
+COPY ./rag ./rag
+COPY ./vector_store ./vector_store
+COPY ./scripts ./scripts
+COPY requirements.txt ./requirements.txt
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Create non-root user
+RUN useradd -m -u 1000 app && chown -R app:app /app
+USER app
+
 # Run the FastAPI application by default
-CMD ["uvicorn", "agentic_ai_iseg.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "llm.main:app", "--host", "0.0.0.0", "--port", "8000"]

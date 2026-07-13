@@ -1,8 +1,12 @@
 services:
   iseg-agent:
-    image: agentic_ai_iseg.main:app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: agentic-ai-iseg:latest
     container_name: iseg-agent
-    env_file: .env
+    env_file:
+      - .env
     ports:
       - "8000:8000"
     volumes:
